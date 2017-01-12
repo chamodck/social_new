@@ -24,7 +24,7 @@ require('./models/MessageGroups');
 
 require('./config/passport');
 
-mongoose.connect('mongodb://127.0.0.1/news');
+mongoose.connect('mongodb://3pnacx:3pnacx@ds145828.mlab.com:45828/3pnacxsocial');
 
 var index = require('./routes/index');
 var auth = require('./routes/auth');
