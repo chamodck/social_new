@@ -1,4 +1,4 @@
-var app = angular.module('flapperNews', ['ui.router']);
+var app = angular.module('flapperNews', ['ui.router','angular-web-notification']);
 
 app.controller('NavCtrl', [
 '$scope',
@@ -11,9 +11,9 @@ function($scope, auth){
 
 
 app.controller('MessageCtrl', [
-  '$rootScope','$scope','auth','messages','socket',
+  '$rootScope','$scope','auth','messages','socket','notification',
 
-  function($rootScope,$scope,auth,messages,socket){
+  function($rootScope,$scope,auth,messages,socket,notification){
 
     $scope.messageGroupsArray=messages.messageGroupsArray;
     $scope.gap=275;
@@ -22,6 +22,10 @@ app.controller('MessageCtrl', [
     $scope.doneTypingInterval = 5000;  //time in ms, 5 second for example
     $scope.isTyping=false;
     $scope.currentUserID=auth.currentUserID();
+
+    // chrome.windows.getCurrent({type:'WindowState'}, function( Window window) {
+    //   alert('fgg');
+    // }); 
 
     $scope.addNewMessageBox=function(messageGroup){
 
@@ -85,10 +89,13 @@ app.controller('MessageCtrl', [
     }
 
     socket.on('chat message', function(message){
+
       messages.addRecievedMessage(message);//.then(function (response) {
       console.log(message);
       $scope.$apply();
       $('#msg-container-base-'+message.groupId).animate({scrollTop: $('#msg-container-base-'+message.groupId).prop("scrollHeight")}, 500);
+      notification.showNotification(message.text);
+
     });
 
     $scope.focus=function (id) {
@@ -179,7 +186,6 @@ app.controller('MessageCtrl', [
     //   clone.css("margin-left", size_total);
     //
     // });
-
   }]);
 
 
