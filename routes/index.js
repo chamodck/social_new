@@ -12,8 +12,17 @@ var MessageGroup = mongoose.model('MessageGroup');
 
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
+// auth.restrict = function(req, res, next){
+//     if (!req.session.userid) {
+//         req.session.redirectTo = '/account';
+//         res.redirect('/auth/#/login');
+//     } else {
+//         next();
+//     }
+// };
+
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', /*auth.restrict,*/function(req, res, next) {
   res.render('pages/index', { title: 'index' });
 });
 
@@ -179,16 +188,18 @@ router.put('/users/addAsFriend/:friend/:currentUser',function(req, res, next) {
 	var currentUser=req.currentUser;
 	var friend=req.friend;
 
-	var firstMessage=new Message({
-		text : 'Hello world',
-		from : currentUser
-	})
-
+	// var firstMessage=new Message({
+	// 	text : 'Hello world',
+	// 	from : currentUser
+	// })
+	
 	var Group=new MessageGroup({
 		type:'private',
+		friendname1:currentUser.username,
+		friendname2:friend.username,
 		members:[currentUser,friend],
-		messages:[firstMessage,firstMessage],
-		name : friend.username
+		messages:[],
+		name : ''
 	})
 
 	Group.save(function(err, group) {

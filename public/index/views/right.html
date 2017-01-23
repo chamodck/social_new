@@ -2,7 +2,17 @@
 <h4>Messages</h4>
 <hr>
 <div ng-repeat="messageGroup in messageGroups">
-	{{messageGroup.name}}
-	<button class="btn btn-default" ng-click="addNewMessageBox(messageGroup)">Chat</button>
-</div>
+	<div ng-if="messageGroup.type=='private'">
+		<div ng-if="messageGroup.friendname1==currentUserName">{{messageGroup.friendname2}}
 
+			<button class="btn btn-default" ng-click="addNewMessageBox(messageGroup)">Chat</button>
+		</div>
+		<div ng-if="messageGroup.friendname2==currentUserName">{{messageGroup.friendname1}}
+			<button class="btn btn-default" ng-click="addNewMessageBox(messageGroup)">Chat</button>
+		</div>
+	</div>
+	<div ng-if="messageGroup.type=='group'">{{messageGroup.name}}
+		<button class="btn btn-default" ng-click="addNewMessageBox(messageGroup)">Chat</button>
+	</div>
+	
+</div>

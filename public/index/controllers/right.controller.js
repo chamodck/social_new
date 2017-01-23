@@ -1,10 +1,12 @@
 app.controller('RightCtrl',[
 '$scope',
-    'users','$rootScope','messages',
+    'auth','$rootScope','messages',
 
-function($scope,users,$rootScope,messages){
+function($scope,auth,$rootScope,messages){
 
-    //$scope.friends=users.friends;
+    $scope.currentUserName = auth.currentUserName();
+    
+
     $scope.messageGroups=messages.messageGroups;
     //console.log(users.messageGroups);
 

@@ -12,6 +12,8 @@ var MessageSchema = new mongoose.Schema({
 
 var MessageGroupSchema = new mongoose.Schema({
     name : {type:String,default:''},
+    friendname1 : String,
+    friendname2 : String,
     members : [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     created_at : { type : Date, default: Date.now },
     messages :[MessageSchema],
