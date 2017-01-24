@@ -22,10 +22,15 @@ app.controller('MessageCtrl', [
     $scope.doneTypingInterval = 5000;  //time in ms, 5 second for example
     $scope.isTyping=false;
     $scope.currentUserID=auth.currentUserID();
+    $scope.isHidden=false;
 
-    // chrome.windows.getCurrent({type:'WindowState'}, function( Window window) {
-    //   alert('fgg');
-    // }); 
+     document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+            $scope.isHidden=true;
+        } else {
+            $scope.isHidden=false;
+        }
+    });
 
     $scope.addNewMessageBox=function(messageGroup){
 
@@ -94,7 +99,12 @@ app.controller('MessageCtrl', [
       console.log(message);
       $scope.$apply();
       $('#msg-container-base-'+message.groupId).animate({scrollTop: $('#msg-container-base-'+message.groupId).prop("scrollHeight")}, 500);
-      notification.showNotification(message.text);
+      
+       if ($scope.isHidden) {
+          
+          notification.showNotification(message.text);
+        }
+      
 
     });
 
